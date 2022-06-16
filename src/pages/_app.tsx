@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/images/iconPage.png" type="image/png" />
       </Head>
 
-      <ToastContainer />
+      <ToastContainer  theme="dark"/>
       <Component {...pageProps} />
 
       <Footer />

@@ -9,6 +9,7 @@ import { Api } from '../services/Api'
 import { Input } from '../components/Form/Input'
 import { Logo } from '../components/Design/Logo'
 import { Button } from '../components/Design/Button'
+import { useState } from 'react';
 
 
 
@@ -23,6 +24,7 @@ const singInFormSchema = yup.object().shape({
 })
 
 export default function SingIn() {
+  const [isLoading, setIsLoading] = useState(false)
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(singInFormSchema)
   })
@@ -30,21 +32,21 @@ export default function SingIn() {
 
   const handleSingIn: SubmitHandler<SingInFormData> = async (values) => {
 
-
+    setIsLoading(true);
     const resolveAfter3Sec = Api.post('/sessions', {
       email: values.email,
       password: values.password
-    }).then((e) => console.log(e)).catch()
+    })
 
     toast.promise(
       resolveAfter3Sec,
       {
-        pending: 'Promise is pending',
-        success: 'Promise resolved 👌',
-        error: 'Promise rejected 🤯',
-        
+        success: 'Sucesso! 🚀',
+        error: 'Email or password incorrect!'
       }
     )
+    resolveAfter3Sec.then((e) => setIsLoading(false))
+    resolveAfter3Sec.catch((e) => setIsLoading(false))
     //add validations
   }
 
@@ -92,7 +94,7 @@ export default function SingIn() {
               label="Password"
               {...register("password")} />
           </Stack>
-          <Button type="submit" text="Play" />
+          <Button type="submit" text="Play" isLoading={isLoading} />
         </Flex>
       </Flex>
 
