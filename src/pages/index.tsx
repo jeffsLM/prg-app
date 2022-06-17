@@ -1,16 +1,17 @@
 import { Flex, Stack, Box, Heading, Center } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../contexts/AuthContext'
 
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Api } from '../services/Api'
+import { api } from '../services/Api'
 
 import { Input } from '../components/Form/Input'
 import { Logo } from '../components/Design/Logo'
 import { Button } from '../components/Design/Button'
-import { useState } from 'react';
-
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/router'
 
 
 type SingInFormData = {
@@ -24,30 +25,39 @@ const singInFormSchema = yup.object().shape({
 })
 
 export default function SingIn() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(singInFormSchema)
   })
   const { errors } = formState;
 
+
+  const { saveCredentials } = useContext(AuthContext)
+
+
   const handleSingIn: SubmitHandler<SingInFormData> = async (values) => {
 
     setIsLoading(true);
-    const resolveAfter3Sec = Api.post('/sessions', {
+    const PR_API_SESSION = api.post('/sessions', {
       email: values.email,
       password: values.password
     })
 
     toast.promise(
-      resolveAfter3Sec,
+      PR_API_SESSION,
       {
-        success: 'Sucesso! 🚀',
+        success: 'Loggin efetuado com sucesso!',
         error: 'Email or password incorrect!'
       }
     )
-    resolveAfter3Sec.then((e) => setIsLoading(false))
-    resolveAfter3Sec.catch((e) => setIsLoading(false))
-    //add validations
+    PR_API_SESSION.then(({ data }) => {
+      saveCredentials({ jwt: data.token, name: data.user.name, email: data.user.email }); 
+      setIsLoading(false);
+      api.defaults.headers.common.Authorization = "Bearer " + data.token; 
+      router.push('/play')
+    })
+    PR_API_SESSION.catch((e) => setIsLoading(false))
   }
 
   return (
@@ -58,16 +68,7 @@ export default function SingIn() {
         align="center"
         flexDir={["column", "row"]}
         justify="space-around">
-        {/* <Flex as="section" justify="center" m="3">
-          <Box >
-            <Heading as="h2" fontSize={["20", "25"]} fontWeight="100">
-              Uma história inesquecível
-            </Heading>
-            <Heading as="h2" fontSize={["20", "25"]} ml="10" fontWeight="400">
-              está prestes a começar
-            </Heading>
-          </Box>
-        </Flex> */}
+
 
         <Flex
           as="form"

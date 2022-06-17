@@ -17,6 +17,7 @@ import { Story } from '../../components/Story'
 import { Button } from '../../components/Design/Button'
 import { Player } from '../../components/Player'
 import { ModalEditPlayer } from '../../components/ModalEditPlayer/ModalEditPlayer'
+import { api } from '../../services/Api'
 
 export default function Play() {
 
@@ -37,7 +38,11 @@ export default function Play() {
 
                         <VStack flex="1" ml={["0", "160"]} p="4"  >
                             <Story title="Início campanha" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt sodales urna cursus condimentum. Cras quis tincidunt nisi. Suspendisse sed finibus felis. Aliquam malesuada dolor neque, vel tempus felis suscipit nec. Aliquam et ullamcorper nunc. Nulla facilisi. Phasellus leo velit, faucibus quis quam eu, rhoncus dignissim massa. Pellentesque malesuada metus turpis, a ornare purus auctor quis. Duis lorem dui, iaculis non sem eu, iaculis faucibus elit. Proin in dapibus sapien, facilisis dapibus velit. Duis et justo leo. Nam consequat risus commodo lorem tempor euismod. Morbi vel vulputate arcu.Pellentesque a augue in magna fermentum sodales. Donec eleifend laoreet mi, sagittis blandit nibh tempus at. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus sed metus porttitor, convallis justo vitae, semper leo. Cras tincidunt ultricies orci, et ultricies est efficitur gravida. Mauris libero erat, sagittis vel purus non, cursus bibendum erat. Proin aliquet, turpis sit amet iaculis blandit, tortor nibh cursus enim, ut cursus sem elit non magna. Nulla lacus ligula, lobortis sit amet posuere eget, malesuada mollis leo. In hac habitasse platea dictumst. Nam volutpat sit amet nisi vitae maximus. Quisque porttitor, quam sed ultricies sagittis, dolor urna fringilla nisl, euismod dapibus leo dolor et tortor. Sed tristique, dolor sed mollis iaculis, felis elit luctus nunc, et maximus ligula lectus vel turpis. Suspendisse in malesuada nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." />
-                            <Button type="submit" text="Iniciar encontro 1.1" w="70%" m="10" />
+                            <Button type="submit" text="Iniciar encontro 1.1" w="70%" m="10" onClick={()=> {
+                                   const PR_API_SESSION = api.post('/sessions', {
+                                    
+                                  })
+                            }} />
                         </VStack>
                         <VStack minW={["300", "400"]} borderRadius="10" bg="blue.700" p="8" >
                             <Flex justify="space-between" w="100%">

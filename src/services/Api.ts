@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const Api = axios.create({
+const api = axios.create({
   baseURL: "https://prg-back.herokuapp.com",
 });
 
-export { Api };
+export { api };
