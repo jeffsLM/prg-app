@@ -17,6 +17,7 @@
     "@use-gesture/react": "^10.1.1",
     "apexcharts": "^3.29.0",
     "axios": "^0.27.2",
+    "chakra-react-select": "^4.0.3",
     "framer-motion": "^4.1.17",
     "next": "11.1.2",
     "nookies": "^2.5.2",

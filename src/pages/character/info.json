@@ -1,0 +1,31 @@
+[
+  {
+    "label": "Bardo - Famosos pelas ilusões e por atrair a atenção de multidões por onde andam",
+    "value": "Bardo/20",
+    "info": "Famosos pelas ilusões e por atrair a atenção de multidões por onde andam",
+    "pe":"20"
+  },
+  {
+    "label": "Berserker - Gerreiro de grande força, capaz de suportar grandes lutas sem se abalar. Reza a lenda que vida se seus inimigos se toram a sua.",
+    "value": "Berserker/15",
+    "info": "Gerreiro de grande força, capaz de suportar grandes lutas sem se abalar. Reza a lenda que vida se seus inimigos se toram a sua.",
+    "pe":"15"
+  },
+  {
+    "label": "Mago - Grandes habilidades vinculados aos elementos, seus esforços custuam ser extremamante destrutivos",
+    "value": "Mago/30",
+    "info": "Grandes habilidades vinculados aos elementos, seus esforços custuam ser extremamante destrutivos",
+    "pe":"30"
+  },
+  {
+    "label": "Necromante - Use qualquer corpo no campo de batalha. Extremamente versateis e lidam com o pós-morte como ninguém",
+    "value": "Necromante/30",
+    "info": "Use qualquer corpo no campo de batalha. Extremamente versateis e lidam com o pos-morte como ninguém",
+    "pe":"30"
+  },
+  {
+    "label": "Ladino - Trapaceiro capaz de adentrar em qualquer forte. Sorrateirismo e assinatos os perseguem por onde passam",
+    "value": "Ladino/20",
+    "pe":"20"
+  }
+]

@@ -52,16 +52,32 @@ export default function SingIn() {
       }
     )
     PR_API_SESSION.then(({ data }) => {
-      saveCredentials({ jwt: data.token, name: data.user.name, email: data.user.email }); 
+      saveCredentials({ jwt: data.token, name: data.user.name, email: data.user.email });
       setIsLoading(false);
-      api.defaults.headers.common.Authorization = "Bearer " + data.token; 
-      router.push('/play')
+      api.defaults.headers.common.Authorization = "Bearer " + data.token;
+
+
+      const PR_GET_ID_CHARARCTER = api.get('/character', {});
+      toast.promise(
+        PR_GET_ID_CHARARCTER,
+        { 
+          pending:"Verificando personagens criados..."         
+        }
+      )
+      PR_GET_ID_CHARARCTER.then(({ data }) => {
+          if(data){
+              router.push('/playing')
+          }else{
+            router.push('/character')
+          }
+      })
+
     })
     PR_API_SESSION.catch((e) => setIsLoading(false))
   }
 
   return (
-    <Center pt="10">
+    <Center>
       <Flex
         flex="1"
         maxWidth={1440}
@@ -95,11 +111,9 @@ export default function SingIn() {
               label="Password"
               {...register("password")} />
           </Stack>
-          <Button type="submit" text="Play" isLoading={isLoading} />
+          <Button type="submit" text="Login" isLoading={isLoading} />
         </Flex>
       </Flex>
-
-
     </Center>
   )
 }
