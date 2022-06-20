@@ -147,7 +147,7 @@ export default function Character() {
 
             const PR_CREATE_SKILL_INTELIGENCIA = api.post('/grimoire/skill/create', {
                 id_character: id_character,
-                skill: 'INTELIGENCIA',
+                skill: 'INTELIGÊNCIA',
                 class_group: classSelected.split('/')[0],
                 icon: '',
                 type: 'PROFICIENCIA',

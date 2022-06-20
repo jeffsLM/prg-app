@@ -1,12 +1,27 @@
-import { Center, Image, Text, Flex } from '@chakra-ui/react'
+import { Center, Image, Text, Flex, CenterProps } from '@chakra-ui/react'
 
 
-export function ContentPRG() {
+interface ContentPRGProps extends CenterProps {
+    title: string;
+    value: number;
+    data:{
+        id_character: string;
+        skill: string;
+        class_group: string;
+        icon: string;
+        type: string;
+        points: number;
+        rules: string;
+    }
+}
+
+export function ContentPRG({title, value,minH = 5,maxWidth="150",...rest}:ContentPRGProps) {
     return (
-        <Center borderRadius="20" border='1px' borderColor='gray.200' p="6" maxWidth="50"  minWidth="20">
-
-                <Text>Itdasdas dasdasdasdsem</Text>
-   
+        <Center borderRadius="12" border='2px' borderColor='gray.200' w="100%" p="2" minH={minH} maxWidth="150" {...rest} bgColor="blue.800">
+            <Flex justify="space-between" align="center" w="100%" >
+                <Text fontWeight={250} fontSize={12}>{title}</Text>
+                <Text>{value}</Text>
+            </Flex>
         </Center>
     );
 }
