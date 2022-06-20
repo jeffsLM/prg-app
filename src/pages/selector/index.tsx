@@ -6,12 +6,14 @@ import { Header } from '../../components/Header'
 import { Card } from '../../components/Card'
 
 import "./styles.module.css";
+import { Footer } from '../../components/Footer';
 
 export default function Selector() {
     const sagas = [0, 1, 2, 3]
 
     // const [Swiper, setSwiper] = useState(null)
     return (
+        <>
         <Center>
             <Flex direction="column" flex="1" maxW={1440}>
                 <Header nameModule="Seletor" />
@@ -36,5 +38,7 @@ export default function Selector() {
                 </Flex>
             </Flex>
         </Center>
+        <Footer />
+       </>
     );
 }

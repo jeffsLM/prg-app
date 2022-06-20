@@ -33,6 +33,7 @@ import { PrgIcon } from '../../components/Design/PrgIcon'
 
 import "./styles.module.css";
 import infoClass from "./info.json";
+import { Footer } from '../../components/Footer';
 
 type SingInFormData = {
     nameCharacter: string;
@@ -169,6 +170,7 @@ export default function Character() {
     }
 
     return (
+        <>
         <Center >
             <Flex
                 as="form"
@@ -295,5 +297,7 @@ export default function Character() {
                 <Button type="submit" text="Play" isLoading={isLoading} />
             </Flex>
         </Center >
+        <Footer/>
+        </>
     )
 }

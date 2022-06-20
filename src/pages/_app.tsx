@@ -25,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <ToastContainer theme="dark" />
         <Component {...pageProps} />
-        <Footer />
       </AuthProvider>
     </ChakraProvider>)
 }

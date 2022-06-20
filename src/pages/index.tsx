@@ -12,6 +12,7 @@ import { Logo } from '../components/Design/Logo'
 import { Button } from '../components/Design/Button'
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router'
+import { Footer } from '../components/Footer';
 
 
 type SingInFormData = {
@@ -77,6 +78,7 @@ export default function SingIn() {
   }
 
   return (
+    <>
     <Center>
       <Flex
         flex="1"
@@ -115,5 +117,7 @@ export default function SingIn() {
         </Flex>
       </Flex>
     </Center>
+  <Footer />
+  </>
   )
 }
