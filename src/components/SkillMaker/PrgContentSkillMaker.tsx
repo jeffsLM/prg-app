@@ -16,6 +16,7 @@ export function PrgContentSkillMaker({ children, direction,spacing=4, ...rest }:
             {...rest}
             spacing={spacing}
             m="4"
+            p="2"
             css={{
                 '&::-webkit-scrollbar': { width: '4px', height: '8px' },
                 '&::-webkit-scrollbar-track': { width: '6px' },
