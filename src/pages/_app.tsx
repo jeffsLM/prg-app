@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify';
-import Head from 'next/Head'
+import Head from 'next/head'
 import { ChakraProvider, Box } from '@chakra-ui/react';
 import { Footer } from '../components/Footer'
 
