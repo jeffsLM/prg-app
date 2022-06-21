@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useRouter } from 'next/router'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 
 import { api } from '../../services/Api'
 

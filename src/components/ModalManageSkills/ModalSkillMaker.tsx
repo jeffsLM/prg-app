@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Flex, Stack,UseDisclosureProps, SimpleGrid, Select, Text } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 
 import { Modal } from '../../components/Modal'
 import { Input } from '../../components/Form/Input'

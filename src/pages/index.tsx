@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../contexts/AuthContext'
 
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { api } from '../services/Api'
 
 import { Input } from '../components/Form/Input'
