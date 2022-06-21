@@ -24,7 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="shortcut icon" href="/images/iconPage.png" type="image/png" />
         </Head>
         <ToastContainer theme="dark" />
-        <Component {...pageProps} />
+        <>
+          <Component {...pageProps} />
+        </>
       </AuthProvider>
     </ChakraProvider>)
 }
