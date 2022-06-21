@@ -1,7 +1,7 @@
 import { Center, Image, Text, Flex, CenterProps } from '@chakra-ui/react'
 
 
-interface ContentPRGProps extends CenterProps {
+interface ContentNumberPRGProps extends CenterProps {
     title: string;
     value: number;
     data:{
@@ -15,7 +15,7 @@ interface ContentPRGProps extends CenterProps {
     }
 }
 
-export function ContentPRG({title, value,minH = 5,maxWidth="150",...rest}:ContentPRGProps) {
+export function ContentNumberPRG({title, value,minH = 5,maxWidth="150",...rest}:ContentNumberPRGProps) {
     return (
         <Center borderRadius="12" border='2px' borderColor='gray.200' w="100%" p="2" minH={minH} maxWidth="150" {...rest} bgColor="blue.800">
             <Flex justify="space-between" align="center" w="100%" >

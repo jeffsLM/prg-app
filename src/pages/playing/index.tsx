@@ -1,18 +1,13 @@
-import { Center, Flex, Text, Box, Image, SimpleGrid, Button, HStack } from '@chakra-ui/react'
-import { ContentPRG } from '../../components/Design/ContentPRG';
+import { Center, Flex, Text, Box, Image, SimpleGrid, Button,useDisclosure } from '@chakra-ui/react'
+import { ContentNumberPRG } from '../../components/Design/ContentNumberPRG';
+import { ContentTextPRG } from '../../components/Design/ContentTextPRG';
 import { api } from '../../services/Api';
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { PlayerStatus } from '../../components/PlayerStatus';
-
-type PrgSkillData = {
-    id_character: string;
-    skill: string;
-    class_group: string;
-    icon: string;
-    type: string;
-    points: string;
-    rules: string;
-}
+import { parseCookies } from 'nookies';
+import { toast } from 'react-toastify';
+import { PrgContentSkillMaker } from '../../components/SkillMaker/PrgContentSkillMaker';
+import { ModalTemplate } from '../../components/Design/ModalTemplate';
 
 
 const modelOperation = [
@@ -39,8 +34,9 @@ const modelOperation = [
 ]
 
 export default function Playing() {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const [proficiency, SetProficiency] = useState([])
-    const [skills, SetSkills] = useState({
+    const [skills, SetSkills] = useState([{
         id_character: null,
         skill: null,
         class_group: null,
@@ -48,8 +44,8 @@ export default function Playing() {
         type: null,
         points: null,
         rules: null,
-    })
-    const [itens, SetItens] = useState({
+    }])
+    const [dataSelected, SetDataSelected] = useState({
         id_character: null,
         skill: null,
         class_group: null,
@@ -57,7 +53,17 @@ export default function Playing() {
         type: null,
         points: null,
         rules: null,
+        id:null,
     })
+    const [itens, SetItens] = useState([{
+        id_character: null,
+        skill: null,
+        class_group: null,
+        icon: null,
+        type: null,
+        points: null,
+        rules: null,
+    }])
     const [character, SetCharacter] = useState({
         id_character: null,
         id_user: null,
@@ -75,21 +81,29 @@ export default function Playing() {
 
 
     useEffect(() => {
-        if (character.id_character) {
-            controller()
-        } else {
-            const PR_API_LIST_CHARACTER = api.get('/character', {})
-            PR_API_LIST_CHARACTER.then(({ data }) => {
-                SetCharacter(data)
-            }
-            )
-        }
+        controller()
     }, [character])
+
+    useEffect(() => {
+        if (!api.defaults.headers.common.Authorization) {
+            const cookies = parseCookies()
+            api.defaults.headers.common.Authorization = "Bearer " + cookies.jwt;
+        }
+        GetCharacter()
+    }, [])
 
     function controller() {
         GetProficiency()
         GetItens()
         GetSkills()
+    }
+
+    function GetCharacter() {
+        const PR_API_LIST_CHARACTER = api.get('/character', {})
+        PR_API_LIST_CHARACTER.then(({ data }) => {
+            SetCharacter(data)
+        }
+        )
     }
 
     function GetProficiency() {
@@ -103,18 +117,24 @@ export default function Playing() {
     }
 
 
-    function handleAlterPoints(value:number,type:string){
-        api.path(`/character/update`, {
-        name: character.name,
-      class_group: character.class_group,
-      sub_class_group:character.sub_class_group,
-      max_life_points:character.max_life_points,
-      life_points:,
-      max_mana_points:character.max_mana_points,
-      mana_points:,
-      max_especial_points:character.max_especial_points,
-      especial_points:
-        }).then(({ data }) => { SetSkills(data) })
+    function handleAlterPoints(value: number, type: string) {
+        let ParamCharacter = {
+            ...character,
+            life_points: type == 'life_points' ? validPositiveOnlyValues(value, character.life_points) : character.life_points,
+            mana_points: type == 'mana_points' ? validPositiveOnlyValues(value, character.mana_points) : character.mana_points,
+            especial_points: type == 'especial_points' ? validPositiveOnlyValues(value, character.especial_points) : character.especial_points
+        }
+        api.patch(`/character/update`,
+            ParamCharacter
+        ).then(({ data }) => {
+            SetCharacter(ParamCharacter)
+        }).catch(e => toast.error('falha ao se conectar ao servidor'))
+    }
+
+    function validPositiveOnlyValues(a: number, b: number) {
+        if (a + b <= 0)
+            return 0;
+        return a + b;
     }
 
     return (
@@ -137,31 +157,41 @@ export default function Playing() {
                 </Flex>
                 <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
                     <Text fontSize="sm">Pontos de vida</Text>
-                    <PlayerStatus w="100%" value={character.life_points-20} maxValue={character.max_life_points} barsCount={20} colorActivate="green.50" colorDesactive="green.800" />
+                    <PlayerStatus w="100%" value={character.life_points} maxValue={character.max_life_points} barsCount={20} colorActivate="green.50" colorDesactive="green.800" />
                     <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm'  bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value,'life_points')}> {e.text}</Button>)
+                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'life_points')}> {e.text}</Button>)
                     }
                     </Flex>
                 </Flex>
                 <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
                     <Text fontSize="sm">Pontos de mana</Text>
-                    <PlayerStatus w="100%" value={character.mana_points-10} maxValue={character.max_mana_points} barsCount={20} colorActivate="blue.300" colorDesactive="blue.800" />
+                    <PlayerStatus w="100%" value={character.mana_points} maxValue={character.max_mana_points} barsCount={20} colorActivate="blue.300" colorDesactive="blue.800" />
                     <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm'  bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value,'mana_points')}> {e.text}</Button>)
+                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'mana_points')}> {e.text}</Button>)
                     }
                     </Flex>
                 </Flex>
 
                 <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
                     <Text fontSize="sm">Pontos de esforço</Text>
-                    <PlayerStatus w="100%" value={character.especial_points-10} maxValue={character.max_especial_points} barsCount={20} colorActivate="yellow.400" colorDesactive="yellow.800" />
+                    <PlayerStatus w="100%" value={character.especial_points} maxValue={character.max_especial_points} barsCount={20} colorActivate="yellow.400" colorDesactive="yellow.800" />
                     <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm'  bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value,'especial_points')}> {e.text}</Button>)
+                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'especial_points')}> {e.text}</Button>)
                     }
                     </Flex>
                 </Flex>
-
-
+                <>
+                    <Flex mt="4" mb="1">
+                        <Text fontSize="sm">Habilidades</Text>
+                    </Flex>
+                    <PrgContentSkillMaker direction="row">
+                        {
+                            skills.map((e, i) => {
+                                return <ContentTextPRG  onClick={()=> {onOpen(),SetDataSelected({...e,id: i})}} key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
+                            })
+                        }
+                    </PrgContentSkillMaker>
+                </>
                 <>
                     <Flex mt="4" mb="1">
                         <Text fontSize="sm">Pericias</Text>
@@ -169,12 +199,25 @@ export default function Playing() {
                     <SimpleGrid columns={2} spacingX='10px' spacingY='10px'>
                         {
                             proficiency.map((e, i) => {
-                                return <ContentPRG key={i} title={(e.skill).toLowerCase().charAt(0).toUpperCase() + ((e.skill).slice(1).toLowerCase())} value={e.points} data={e} />
+                                return <ContentNumberPRG key={i} title={(e.skill).toLowerCase().charAt(0).toUpperCase() + ((e.skill).slice(1).toLowerCase())} value={e.points} data={e} />
                             })
                         }
                     </SimpleGrid>
                 </>
+                <>
+                    <Flex mt="4" mb="1">
+                        <Text fontSize="sm">Itens</Text>
+                    </Flex>
+                    <PrgContentSkillMaker direction="row">
+                        {
+                            itens.map((e, i) => {
+                                return <ContentTextPRG key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
+                            })
+                        }
+                    </PrgContentSkillMaker>
+                </>
             </Flex>
+            <ModalTemplate isOpen={isOpen} onOpen={onOpen} onClose={onClose} data={dataSelected} />
         </Center>
     );
 }
