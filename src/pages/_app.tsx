@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify';
 import Head from 'next/head'
-import { ChakraProvider, Box } from '@chakra-ui/react';
+import { ChakraProvider, Box,ColorModeScript } from '@chakra-ui/react';
 import { Footer } from '../components/Footer'
 
 import { AuthProvider } from '../contexts/AuthContext'
@@ -24,9 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="shortcut icon" href="/images/iconPage.png" type="image/png" />
         </Head>
         <ToastContainer theme="dark" />
-        <>
+        <ColorModeScript initialColorMode="light" />
           <Component {...pageProps} />
-        </>
+        
       </AuthProvider>
     </ChakraProvider>)
 }

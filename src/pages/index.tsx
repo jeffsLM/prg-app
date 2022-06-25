@@ -1,4 +1,4 @@
-import { Flex, Stack, Box, Heading, Center } from '@chakra-ui/react'
+import { Flex, Stack, Box, Heading, Center, useColorMode } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify';
 import { AuthContext } from '../contexts/AuthContext'
@@ -10,7 +10,7 @@ import { api } from '../services/Api'
 import { Input } from '../components/Form/Input'
 import { Logo } from '../components/Design/Logo'
 import { Button } from '../components/Design/Button'
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { Footer } from '../components/Footer';
 
@@ -27,12 +27,21 @@ const singInFormSchema = yup.object().shape({
 
 export default function SingIn() {
   const router = useRouter()
+  const { colorMode, toggleColorMode } = useColorMode()
   const [isLoading, setIsLoading] = useState(false)
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(singInFormSchema)
   })
   const { errors } = formState;
 
+  useEffect(() => {
+    console.log(colorMode)
+    if (colorMode == 'light') {
+        toggleColorMode()
+    }
+
+    
+}, [colorMode])
 
   const { saveCredentials } = useContext(AuthContext)
 

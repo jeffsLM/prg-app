@@ -6,7 +6,7 @@ export function Footer() {
             <Text fontSize="10">
                 Powered by
             </Text>
-            <Image src="/images/logoJF.svg" h="8" alt="Jf Labs" />
+            <Image src="/images/LogoJF.svg" h="8" alt="Jf Labs" />
             <Flex align="end">
                 <Text fontSize="10"  >
                     Labs

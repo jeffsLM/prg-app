@@ -1,4 +1,4 @@
-import { Center, Flex, Text, Box, Image, SimpleGrid, Button,useDisclosure } from '@chakra-ui/react'
+import { Center, Flex, Text, Box, Image, SimpleGrid, Button, useDisclosure } from '@chakra-ui/react'
 import { ContentNumberPRG } from '../../components/Design/ContentNumberPRG';
 import { ContentTextPRG } from '../../components/Design/ContentTextPRG';
 import { api } from '../../services/Api';
@@ -8,6 +8,7 @@ import { parseCookies } from 'nookies';
 import { toast } from 'react-toastify';
 import { PrgContentSkillMaker } from '../../components/SkillMaker/PrgContentSkillMaker';
 import { ModalTemplate } from '../../components/Design/ModalTemplate';
+import { Footer } from '../../components/Footer';
 
 
 const modelOperation = [
@@ -53,7 +54,7 @@ export default function Playing() {
         type: null,
         points: null,
         rules: null,
-        id:null,
+        id: null,
     })
     const [itens, SetItens] = useState([{
         id_character: null,
@@ -138,86 +139,89 @@ export default function Playing() {
     }
 
     return (
-        <Center>
-            <Flex
-                w="100%"
-                maxWidth={460}
-                p="8"
-                borderRadius={8}
-                flexDir="column"
-                m={["6", "6"]}
-                mb="10"
-            >
-                <Flex align="center">
-                    <Image src="/images/mage@2x.png" boxSize="3.5rem" alt="IconSelector" />
-                    <Box w="80%" ml="5%" align="center">
-                        <Text as="h3" align="start">{character.name}</Text>
-                        <Text as="h3" fontWeight={200} fontSize="small" align="start">{character.class_group} - {character.sub_class_group} </Text>
-                    </Box>
-                </Flex>
-                <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
-                    <Text fontSize="sm">Pontos de vida</Text>
-                    <PlayerStatus w="100%" value={character.life_points} maxValue={character.max_life_points} barsCount={20} colorActivate="green.50" colorDesactive="green.800" />
-                    <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'life_points')}> {e.text}</Button>)
-                    }
+        <>
+            <Center>
+                <Flex
+                    w="100%"
+                    maxWidth={460}
+                    p="8"
+                    borderRadius={8}
+                    flexDir="column"
+                    m={["6", "6"]}
+                    mb="10"
+                >
+                    <Flex align="center">
+                        <Image src="/images/mage@2x.png" boxSize="3.5rem" alt="IconSelector" />
+                        <Box w="80%" ml="5%" align="center">
+                            <Text as="h3" align="start">{character.name}</Text>
+                            <Text as="h3" fontWeight={200} fontSize="small" align="start">{character.class_group} - {character.sub_class_group} </Text>
+                        </Box>
                     </Flex>
-                </Flex>
-                <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
-                    <Text fontSize="sm">Pontos de mana</Text>
-                    <PlayerStatus w="100%" value={character.mana_points} maxValue={character.max_mana_points} barsCount={20} colorActivate="blue.300" colorDesactive="blue.800" />
-                    <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'mana_points')}> {e.text}</Button>)
-                    }
+                    <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
+                        <Text fontSize="sm">Pontos de vida</Text>
+                        <PlayerStatus w="100%" value={character.life_points} maxValue={character.max_life_points} barsCount={30} colorActivate="green.50" colorDesactive="green.800" />
+                        <Flex flex="1" w="100%" justify="space-between" mt="2" >{
+                            modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'life_points')}> {e.text}</Button>)
+                        }
+                        </Flex>
                     </Flex>
-                </Flex>
+                    <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
+                        <Text fontSize="sm">Pontos de mana</Text>
+                        <PlayerStatus w="100%" value={character.mana_points} maxValue={character.max_mana_points} barsCount={30} colorActivate="blue.300" colorDesactive="blue.800" />
+                        <Flex flex="1" w="100%" justify="space-between" mt="2" >{
+                            modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'mana_points')}> {e.text}</Button>)
+                        }
+                        </Flex>
+                    </Flex>
 
-                <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
-                    <Text fontSize="sm">Pontos de esforço</Text>
-                    <PlayerStatus w="100%" value={character.especial_points} maxValue={character.max_especial_points} barsCount={20} colorActivate="yellow.400" colorDesactive="yellow.800" />
-                    <Flex flex="1" w="100%" justify="space-between" mt="2" >{
-                        modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'especial_points')}> {e.text}</Button>)
-                    }
+                    <Flex direction="column" justify="center" w="100%" mt="4" mb="4" >
+                        <Text fontSize="sm">Pontos de esforço</Text>
+                        <PlayerStatus w="100%" value={character.especial_points} maxValue={character.max_especial_points} barsCount={30} colorActivate="yellow.400" colorDesactive="yellow.800" />
+                        <Flex flex="1" w="100%" justify="space-between" mt="2" >{
+                            modelOperation.map((e) => <Button variant='outline' key={e.id} colorScheme='white' size='sm' bgColor="blue.800" onClick={(event) => handleAlterPoints(e.value, 'especial_points')}> {e.text}</Button>)
+                        }
+                        </Flex>
                     </Flex>
+                    <>
+                        <Flex mt="4" mb="1">
+                            <Text fontSize="sm">Habilidades</Text>
+                        </Flex>
+                        <PrgContentSkillMaker direction="row">
+                            {
+                                skills.map((e, i) => {
+                                    return <ContentTextPRG onClick={() => { onOpen(), SetDataSelected({ ...e, id: i }) }} key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
+                                })
+                            }
+                        </PrgContentSkillMaker>
+                    </>
+                    <>
+                        <Flex mt="4" mb="1">
+                            <Text fontSize="sm">Pericias</Text>
+                        </Flex>
+                        <SimpleGrid columns={2} spacingX='10px' spacingY='10px'>
+                            {
+                                proficiency.map((e, i) => {
+                                    return <ContentNumberPRG key={i} title={(e.skill).toLowerCase().charAt(0).toUpperCase() + ((e.skill).slice(1).toLowerCase())} value={e.points} data={e} />
+                                })
+                            }
+                        </SimpleGrid>
+                    </>
+                    <>
+                        <Flex mt="4" mb="1">
+                            <Text fontSize="sm">Itens</Text>
+                        </Flex>
+                        <PrgContentSkillMaker direction="row">
+                            {
+                                itens.map((e, i) => {
+                                    return <ContentTextPRG onClick={() => { onOpen(), SetDataSelected({ ...e, id: i }) }} key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
+                                })
+                            }
+                        </PrgContentSkillMaker>
+                    </>
                 </Flex>
-                <>
-                    <Flex mt="4" mb="1">
-                        <Text fontSize="sm">Habilidades</Text>
-                    </Flex>
-                    <PrgContentSkillMaker direction="row">
-                        {
-                            skills.map((e, i) => {
-                                return <ContentTextPRG  onClick={()=> {onOpen(),SetDataSelected({...e,id: i})}} key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
-                            })
-                        }
-                    </PrgContentSkillMaker>
-                </>
-                <>
-                    <Flex mt="4" mb="1">
-                        <Text fontSize="sm">Pericias</Text>
-                    </Flex>
-                    <SimpleGrid columns={2} spacingX='10px' spacingY='10px'>
-                        {
-                            proficiency.map((e, i) => {
-                                return <ContentNumberPRG key={i} title={(e.skill).toLowerCase().charAt(0).toUpperCase() + ((e.skill).slice(1).toLowerCase())} value={e.points} data={e} />
-                            })
-                        }
-                    </SimpleGrid>
-                </>
-                <>
-                    <Flex mt="4" mb="1">
-                        <Text fontSize="sm">Itens</Text>
-                    </Flex>
-                    <PrgContentSkillMaker direction="row">
-                        {
-                            itens.map((e, i) => {
-                                return <ContentTextPRG key={i} title={e.skill} rules={e.rules} value={e.points} data={e} />
-                            })
-                        }
-                    </PrgContentSkillMaker>
-                </>
-            </Flex>
-            <ModalTemplate isOpen={isOpen} onOpen={onOpen} onClose={onClose} data={dataSelected} />
-        </Center>
+                <ModalTemplate isOpen={isOpen} onOpen={onOpen} onClose={onClose} data={dataSelected} />
+            </Center>
+            <Footer />
+        </>
     );
 }

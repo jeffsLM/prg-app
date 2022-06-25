@@ -13,6 +13,7 @@ import {
     AccordionPanel,
     PinInput,
     PinInputField,
+    useColorMode 
 } from '@chakra-ui/react'
 import {
     Select
@@ -78,14 +79,14 @@ export default function Character() {
         resolver: yupResolver(singInFormSchema)
     })
     const { errors } = formState;
-
+    const { colorMode, toggleColorMode } = useColorMode(); 
 
 
 
     const handleCreateChararcter: SubmitHandler<SingInFormData> = async (values) => {
 
         if (((classSelected || subClassSelected) == '') || (values.destreza + values.forca + values.defesa + values.inteligencia > 6)) {
-            toast.error(values.destreza + values.forca + values.defesa + values.inteligencia > 6 ? "Verifique a distribuição de pontos de pericia - limite extrapolado! " :"Selecione uma classe e sub-classe!")
+            toast.error(values.destreza + values.forca + values.defesa + values.inteligencia > 6 ? "Verifique a distribuição de pontos de perícia - limite extrapolado! " :"Selecione uma classe e sub-classe!")
         } else {
             setIsLoading(true);
             const PR_API_CREATE_CHARACTER = api.post('/character/create', {
@@ -183,6 +184,7 @@ export default function Character() {
                 mb="10"
                 onSubmit={handleSubmit(handleCreateChararcter)}>
                 <VStack spacing="6">
+                    <Center> <Button size='sm' text={colorMode == 'dark' ? '☀' : '🌛'} colorScheme='blue' onClick={toggleColorMode}/> </Center>
                     <PrgIcon renderImage src="/images/mage@2x.png" boxSize="4.5rem" alt="IconSelector" />
                     <Box>
                         <Heading as="h3" textAlign="center" size="md">Elysium te aguarda,</Heading>
@@ -219,7 +221,7 @@ export default function Character() {
                             <h2>
                                 <AccordionButton>
                                     <Box flex='1' textAlign='left'>
-                                        Todos tem alguma pericia, quais são as suas?
+                                        Todos tem alguma perícia, quais são as suas?
                                     </Box>
                                     <AccordionIcon />
                                 </AccordionButton>
@@ -227,7 +229,7 @@ export default function Character() {
                             <AccordionPanel pb={4}>
                                 <VStack>
                                     <Text color="red.200">
-                                        Distribua 6 pontos em suas pericias
+                                        Distribua 6 pontos em suas perícias
                                     </Text>
                                     <Flex align="center" justify="space-between" w="100%">
                                         <Text>
@@ -279,21 +281,8 @@ export default function Character() {
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
-                    {/* <Stack spacing="4">
-              
-                    <Input type="text"
-                        name="email"
-                        error={errors.email}
-                        label="Email"
-                        {...register("email")} />
-
-                    <Input type="password"
-                        name="password"
-                        error={errors.password}
-                        label="Password"
-                        {...register("password")} />
-                </Stack> */}
-                </VStack>
+                 
+                </VStack>          
                 <Button type="submit" text="Play" isLoading={isLoading} />
             </Flex>
         </Center >
