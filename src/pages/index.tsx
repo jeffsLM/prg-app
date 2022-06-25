@@ -37,11 +37,11 @@ export default function SingIn() {
   useEffect(() => {
     console.log(colorMode)
     if (colorMode == 'light') {
-        toggleColorMode()
+      toggleColorMode()
     }
 
-    
-}, [colorMode])
+
+  }, [colorMode])
 
   const { saveCredentials } = useContext(AuthContext)
 
@@ -70,16 +70,18 @@ export default function SingIn() {
       const PR_GET_ID_CHARARCTER = api.get('/character', {});
       toast.promise(
         PR_GET_ID_CHARARCTER,
-        { 
-          pending:"Verificando personagens criados..."         
+        {
+          pending: "Verificando personagens criados..."
         }
       )
       PR_GET_ID_CHARARCTER.then(({ data }) => {
-          if(data){
-              router.push('/playing')
-          }else{
-            router.push('/character')
-          }
+        if (data && data.name == 'MESTRE') {
+          router.push('/playing/master')
+        } else if (data) {
+          router.push('/playing')
+        } else {
+          router.push('/character')
+        }
       })
 
     })
@@ -88,45 +90,45 @@ export default function SingIn() {
 
   return (
     <>
-    <Center>
-      <Flex
-        flex="1"
-        maxWidth={1440}
-        align="center"
-        flexDir={["column", "row"]}
-        justify="space-around">
-
-
+      <Center>
         <Flex
-          as="form"
-          w="100%"
-          maxWidth={360}
-          bg="blue.700"
-          p="8"
-          borderRadius={8}
-          flexDir="column"
-          m={["6", "6"]}
-          onSubmit={handleSubmit(handleSingIn)}
-        >
-          <Stack spacing="4">
-            <Logo flexDir="column" fontSize="20" boxSize="100" direction="column" />
-            <Input type="text"
-              name="email"
-              error={errors.email}
-              label="Email"
-              {...register("email")} />
+          flex="1"
+          maxWidth={1440}
+          align="center"
+          flexDir={["column", "row"]}
+          justify="space-around">
 
-            <Input type="password"
-              name="password"
-              error={errors.password}
-              label="Password"
-              {...register("password")} />
-          </Stack>
-          <Button type="submit" text="Login" isLoading={isLoading} />
+
+          <Flex
+            as="form"
+            w="100%"
+            maxWidth={360}
+            bg="blue.700"
+            p="8"
+            borderRadius={8}
+            flexDir="column"
+            m={["6", "6"]}
+            onSubmit={handleSubmit(handleSingIn)}
+          >
+            <Stack spacing="4">
+              <Logo flexDir="column" fontSize="20" boxSize="100" direction="column" />
+              <Input type="text"
+                name="email"
+                error={errors.email}
+                label="Email"
+                {...register("email")} />
+
+              <Input type="password"
+                name="password"
+                error={errors.password}
+                label="Password"
+                {...register("password")} />
+            </Stack>
+            <Button type="submit" text="Login" isLoading={isLoading} />
+          </Flex>
         </Flex>
-      </Flex>
-    </Center>
-  <Footer />
-  </>
+      </Center>
+      <Footer />
+    </>
   )
 }
