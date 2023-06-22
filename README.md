@@ -1,5 +1,5 @@
 <div align="center">
-    <img height="75px" src="https://github.com/jeffsLM/prg-app/raw/master/public/images/logo_prg_tm%402x.png" alt="PRG Logo">
+    <img src="https://github.com/jeffsLM/prg-app/raw/master/public/images/logo_prg_tm%402x.png" alt="PRG Logo">
 </div>
 
 <h1 align="center">PRG - Table Master</h1>
@@ -17,7 +17,7 @@
 <p>
 The PRG comes with the aim of facilitating the start of sessions, making skills, items, proficiency or any other requirement instantly drawn and given to the player. With it, we seek to reduce the preparation time and increase the playing time. <br> Enjoy and roll the dice! 🎲</p>
 <div align="center">
-    <img height="500px" src="https://github.com/jeffsLM/prg-app/raw/master/src/assets/screenshots/playingScreen.png" alt="Fox Anima Logo">
+    <img height="700px" src="https://github.com/jeffsLM/prg-app/raw/master/src/assets/screenshots/playingScreen.png" alt="Fox Anima Logo">
 </div>
 
 <h2>Getting Started</h2>
